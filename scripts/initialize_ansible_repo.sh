@@ -47,7 +47,7 @@ done
 # ----------------------------------------------------------------------------------
 ROLES_REQ="${ANSIBLE_REPO}/roles/requirements.yml"
 cat <<EOL > "$ROLES_REQ"
-roles:
+roles: {}
   # Example role requirements from Ansible Galaxy
   - name: example_role
     src: ansible-role-example
@@ -64,7 +64,7 @@ echo "File created: ${ROLES_REQ}"
 # ---------------------------------------------------------------------------------------
 COLLECTIONS_REQ="${ANSIBLE_REPO}/collections/requirements.yml"
 cat <<EOL > "$COLLECTIONS_REQ"
-collections:
+collections:{}
   ## Example collection requirements from Ansible Galaxy
   #- name: ansible.builtin
   #  version: "1.0.0"
