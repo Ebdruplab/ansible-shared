@@ -143,6 +143,21 @@ token=URKEYS
 url=https://galaxy.ansible.com/
 EOL
 echo "File created: ${ANSIBLE_CFG}"
+# Generate a .gitignore file
+GITIGNORE_FILE="${ANSIBLE_REPO}/.gitignore"
+cat <<EOL > "$GITIGNORE_FILE"
+#VS CODE
+.vscode
+# ANSIBLE
+collections/*
+roles/*
+
+# DO SYNC WITH GIT
+!collections/requirements.yml
+!roles/requirements.yml
+
+EOL
+echo "File created: ${GITIGNORE_FILE}"
 
 # Create the vault password file with a random 30-character password
 # --------------------------------------------------------------------
