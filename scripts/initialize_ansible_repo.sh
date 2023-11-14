@@ -49,14 +49,14 @@ ROLES_REQ="${ANSIBLE_REPO}/roles/requirements.yml"
 cat <<EOL > "$ROLES_REQ"
 roles: {}
   # Example role requirements from Ansible Galaxy
-  - name: example_role
-    src: ansible-role-example
-    version: v1.0
+  #- name: example_role
+  #  src: ansible-role-example
+  #  version: v1.0
 
   # Example role requirements from GitHub
-  - name: example_role_github
-    src: https://github.com/user/ansible-role-example
-    version: master
+  #- name: example_role_github
+  #  src: https://github.com/user/ansible-role-example
+  #  version: master
 EOL
 echo "File created: ${ROLES_REQ}"
 
