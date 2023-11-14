@@ -47,15 +47,16 @@ done
 # ----------------------------------------------------------------------------------
 ROLES_REQ="${ANSIBLE_REPO}/roles/requirements.yml"
 cat <<EOL > "$ROLES_REQ"
-# Example role requirements from Ansible Galaxy
-- name: example_role
-  src: ansible-role-example
-  version: v1.0
+roles:
+  # Example role requirements from Ansible Galaxy
+  - name: example_role
+    src: ansible-role-example
+    version: v1.0
 
-# Example role requirements from GitHub
-- name: example_role_github
-  src: https://github.com/user/ansible-role-example
-  version: master
+  # Example role requirements from GitHub
+  - name: example_role_github
+    src: https://github.com/user/ansible-role-example
+    version: master
 EOL
 echo "File created: ${ROLES_REQ}"
 
@@ -63,15 +64,16 @@ echo "File created: ${ROLES_REQ}"
 # ---------------------------------------------------------------------------------------
 COLLECTIONS_REQ="${ANSIBLE_REPO}/collections/requirements.yml"
 cat <<EOL > "$COLLECTIONS_REQ"
-## Example collection requirements from Ansible Galaxy
-#- name: ansible.builtin
-#  version: "1.0.0"
-#  source: https://galaxy.ansible.com
+collections:
+  ## Example collection requirements from Ansible Galaxy
+  #- name: ansible.builtin
+  #  version: "1.0.0"
+  #  source: https://galaxy.ansible.com
 
-## Example collection requirements from GitHub
-#- name: example_collection_github
-#  src: https://github.com/user/ansible-collection-example
-#  version: main
+  ## Example collection requirements from GitHub
+  #- name: example_collection_github
+  #  src: https://github.com/user/ansible-collection-example
+  #  version: main
 EOL
 echo "File created: ${COLLECTIONS_REQ}"
 
