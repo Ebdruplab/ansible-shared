@@ -33,6 +33,7 @@ DIRECTORIES=(
   "inventories"
   "collections"
   "vars"
+  "scripts"
 )
 
 # Create the Ansible repository directory and directories
@@ -91,6 +92,7 @@ This repository contains Ansible playbooks, roles, and configurations.
 - \`inventories\`: Inventory files defining hosts and groups.
 - \`collections\`: Ansible collections along with a \`requirements.yml\` file for external collections.
 - \`vars\`: Variables files.
+- \`scripts\`: is holding bash scripts e.g the requerements.yml file init.
 
 ## Usage
 
@@ -179,4 +181,24 @@ if [[ $EUID -ne 0 ]]; then
   echo -e "\033[1;34mThis script isn't run as sudo so we can't set the correct ownership on the directory\033[0m"
 
 fi
+echo "Ansible repository layout created at ${ANSIBLE_REPO}"
+
+# Create the init_script.sh file
+#---------------------------------
+INIT_SCRIPT="${ANSIBLE_REPO}/scripts/init_script.sh"
+cat <<EOL > "$INIT_SCRIPT"
+#!/bin/bash
+# This script installs requirements from requirements.yml files in roles and collections directories
+
+echo "Installing requirements for roles..."
+ansible-galaxy role install -r "\${ANSIBLE_REPO}/roles/requirements.yml" -p "\${ANSIBLE_REPO}/roles"
+
+echo "Installing requirements for collections..."
+ansible-galaxy collection install -r "\${ANSIBLE_REPO}/collections/requirements.yml" -p "\${ANSIBLE_REPO}/roles"
+
+echo "Requirements installation complete."
+EOL
+chmod +x "$INIT_SCRIPT"
+echo "Init script created: ${INIT_SCRIPT}"
+
 echo "Ansible repository layout created at ${ANSIBLE_REPO}"
