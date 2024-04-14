@@ -5,8 +5,9 @@
 # This script initializes a new Ansible repository with a specific directory structure.
 # The structure includes directories for roles, inventories, collections, and variables,
 # along with example requirements.yml files for roles and collections sourced from both
-# Ansible Galaxy and GitHub. It also creates an ansible.cfg configuration file and
-# a vault password file with a random 30-character password.
+# Ansible Galaxy and GitHub. It also creates an ansible.cfg configuration file, a vault
+# password file with a random 30-character password, and sets up an initialization script
+# for development environments.
 #
 # Usage:
 #   ./initialize_ansible_repo.sh <ansible_repo_path>
@@ -44,6 +45,20 @@ for dir in "${DIRECTORIES[@]}"; do
   echo "Directory created: ${FULL_PATH}"
 done
 
+# Additional script files creation
+# ----------------------------------
+# Init development script
+INIT_DEV_SCRIPT="${ANSIBLE_REPO}/scripts/init_dev.sh"
+cat <<EOL > "$INIT_DEV_SCRIPT"
+#!/bin/bash
+# This script sets the ANSIBLE_VAULT_PASSWORD_FILE environment variable for development purposes.
+
+export ANSIBLE_VAULT_PASSWORD_FILE="${HOME}/.vault_keys/.${REPO_NAME}"
+echo "Ansible Vault password file set to: \$ANSIBLE_VAULT_PASSWORD_FILE"
+EOL
+chmod +x "$INIT_DEV_SCRIPT"
+echo "Development init script created: ${INIT_DEV_SCRIPT}"
+
 # Create roles/requirements.yml file with examples from Ansible Galaxy and GitHub
 # ----------------------------------------------------------------------------------
 ROLES_REQ="${ANSIBLE_REPO}/roles/requirements.yml"
@@ -65,7 +80,7 @@ echo "File created: ${ROLES_REQ}"
 # ---------------------------------------------------------------------------------------
 COLLECTIONS_REQ="${ANSIBLE_REPO}/collections/requirements.yml"
 cat <<EOL > "$COLLECTIONS_REQ"
-collections:{}
+collections: {}
   ## Example collection requirements from Ansible Galaxy
   #- name: ansible.builtin
   #  version: "1.0.0"
@@ -112,11 +127,11 @@ ANSIBLE_CFG="${ANSIBLE_REPO}/ansible.cfg"
 cat <<EOL > "$ANSIBLE_CFG"
 #configs
 [defaults]
-#inventory = inventories/${REPO_NAME}/inventory.ini
+# inventory = inventories/${REPO_NAME}/inventory.ini
 roles_path = ~/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles:./roles
 filter_plugins=~/.ansible/plugins/filter:/usr/share/ansible/plugins/filter:~/plugins/filter
 host_key_checking = False
-vault_password_file = ~/vault_keys/${REPO_NAME}
+# vault_password_file = ~/vault_keys/${REPO_NAME}
 stdout_callback = ansible.builtin.default
 
 [privilege_escalation]
